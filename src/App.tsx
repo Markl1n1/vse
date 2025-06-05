@@ -14,8 +14,17 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 // Fallback component for errors
-const ErrorFallback = ({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) => (
-  <div role="alert" className="min-h-screen flex items-center justify-center bg-red-100">
+const ErrorFallback = ({
+  error,
+  resetErrorBoundary,
+}: {
+  error: Error;
+  resetErrorBoundary: () => void;
+}) => (
+  <div
+    role="alert"
+    className="min-h-screen flex items-center justify-center bg-red-100"
+  >
     <div className="text-center">
       <h2 className="text-2xl font-bold text-red-600">Something went wrong!</h2>
       <p className="mt-2 text-gray-700">{error.message}</p>
@@ -33,7 +42,10 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <BrowserRouter>
-        <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => window.location.reload()}>
+        <ErrorBoundary
+          FallbackComponent={ErrorFallback}
+          onReset={() => window.location.reload()}
+        >
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />

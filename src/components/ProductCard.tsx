@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -6,11 +6,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Product } from '@/data/products';
-import { useLanguage } from '@/contexts/LanguageContext';
-import CallbackForm from './CallbackForm';
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Product } from "@/data/products";
+import { useLanguage } from "@/contexts/LanguageContext";
+import CallbackForm from "./CallbackForm";
 import {
   Dialog,
   DialogContent,
@@ -18,8 +18,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Helmet } from 'react-helmet-async';
+} from "@/components/ui/dialog";
+import { Helmet } from "react-helmet-async";
 
 interface ProductCardProps {
   product: Product;
@@ -38,10 +38,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     if (imageError) {
       return "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&h=400&fit=crop&crop=entropy&auto=format&q=80";
     }
-    
+
     try {
       new URL(product.imageUrl);
-      if (product.imageUrl.includes('?')) {
+      if (product.imageUrl.includes("?")) {
         return product.imageUrl;
       }
       return `${product.imageUrl}?w=600&h=400&fit=crop&crop=entropy&auto=format&q=80`;
@@ -61,16 +61,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            "name": productName,
-            "image": imageUrl,
-            "description": productDescription,
-            "offers": {
+            name: productName,
+            image: imageUrl,
+            description: productDescription,
+            offers: {
               "@type": "Offer",
-              "priceCurrency": "UAH", // Adjust currency as needed
-              "price": product.price.toString(),
-              "availability": "https://schema.org/InStock", // Adjust based on actual availability
-              "url": `https://videosoundevents.com/categories/${product.category}` // Link to category page
-            }
+              priceCurrency: "UAH", // Adjust currency as needed
+              price: product.price.toString(),
+              availability: "https://schema.org/InStock", // Adjust based on actual availability
+              url: `https://videosoundevents.com/categories/${product.category}`, // Link to category page
+            },
           })}
         </script>
       </Helmet>
@@ -87,7 +87,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <CardHeader>
           <CardTitle className="line-clamp-2 h-14">{productName}</CardTitle>
           <CardDescription className="text-lg font-bold text-primary">
-            {product.price} {t('price_per_day')}
+            {product.price} {t("price_per_day")}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -96,13 +96,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <CardFooter className="pt-2">
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="w-full">{t('request_callback')}</Button>
+              <Button className="w-full">{t("request_callback")}</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>{t('callback_title')}</DialogTitle>
+                <DialogTitle>{t("callback_title")}</DialogTitle>
                 <DialogDescription>
-                  {productName} - {product.price} {t('price_per_day')}
+                  {productName} - {product.price} {t("price_per_day")}
                 </DialogDescription>
               </DialogHeader>
               <CallbackForm
@@ -111,7 +111,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 productDetails={{
                   name: productName,
                   image: imageUrl,
-                  price: product.price.toString()
+                  price: product.price.toString(),
                 }}
               />
             </DialogContent>

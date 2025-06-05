@@ -4,11 +4,12 @@ import { HelmetProvider } from "react-helmet-async";
 import App from "./App.tsx";
 import "./index.css";
 
-
 // Ensure the root element exists before rendering
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 if (!rootElement) {
-  throw new Error('Root element not found. Ensure there is a <div id="root"> in your index.html.');
+  throw new Error(
+    'Root element not found. Ensure there is a <div id="root"> in your index.html.',
+  );
 }
 
 createRoot(rootElement).render(
@@ -16,5 +17,5 @@ createRoot(rootElement).render(
     <HelmetProvider>
       <App />
     </HelmetProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

@@ -106,7 +106,7 @@ const Categories: React.FC = () => {
 
         {isLoading ? (
           <div className="text-center py-12">
-            <p className="text-lg text-muted-foreground">Loading categories...</p>
+            <p className="text-lg text-muted-foreground">{t('loading')}</p>
           </div>
         ) : (
           <>

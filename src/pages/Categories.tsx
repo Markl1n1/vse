@@ -38,7 +38,7 @@ const Categories: React.FC = () => {
         console.error('Failed to fetch products:', error);
       })
       .finally(() => {
-        setIsLoading(true);
+        setIsLoading(false);
       });
   }, [categoryId]);
 

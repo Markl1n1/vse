@@ -4,13 +4,16 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import CallbackForm from '@/components/CallbackForm';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+
+declare global {
+  interface Window {
+    google: any;
+  }
+}
 
 const Contact: React.FC = () => {
   const { language } = useLanguage();
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
   const [mapError, setMapError] = useState<string | null>(null);
 
   const contactInfo = {
@@ -62,33 +65,44 @@ const Contact: React.FC = () => {
   };
 
   useEffect(() => {
+    if (window.google) {
+      initMap();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY`;
+    script.async = true;
+    script.defer = true;
+
+    script.onload = initMap;
+    script.onerror = () => {
+      console.error('Failed to load Google Maps');
+      setMapError('Unable to load the map. Please try again later.');
+    };
+
+    document.head.appendChild(script);
+  }, []);
+
+  const initMap = () => {
     if (!mapContainer.current) return;
 
     try {
-      mapboxgl.accessToken = 'pk.eyJ1IjoibG92YWJsZSIsImEiOiJjbGwyOGJ4ZnAwMDJhM2NwZnB1cWVyZGduIn0.ZmdaSrzgvGOTJP_I07vz1Q';
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/dark-v11',
-        center: [30.5234, 50.4501],
+      const map = new window.google.maps.Map(mapContainer.current, {
+        center: { lat: 50.432573, lng: 30.615517 },
         zoom: 12
       });
 
-      map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
-      new mapboxgl.Marker({ color: '#3b82f6' })
-        .setLngLat([30.5234, 50.4501])
-        .addTo(map.current);
+      new window.google.maps.Marker({
+        position: { lat: 50.432573, lng: 30.615517 },
+        map,
+        title: 'VideoSoundEvent',
+      });
     } catch (error) {
-      console.error('Failed to load Mapbox map:', error);
+      console.error('Map init error:', error);
       setMapError('Unable to load the map. Please try again later.');
     }
-
-    return () => {
-      if (map.current) {
-        map.current.remove();
-        map.current = null;
-      }
-    };
-  }, []);
+  };
 
   return (
     <>
@@ -116,7 +130,7 @@ const Contact: React.FC = () => {
         <h1 className="text-3xl font-bold mb-8 text-center">
           {language === 'ua' ? 'Зворотній зв\'язок' : language === 'ru' ? 'Обратная связь' : 'Contact Us'}
         </h1>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
           <Card>
             <CardHeader>

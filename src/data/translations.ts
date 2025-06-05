@@ -108,6 +108,11 @@ export const translations: Translations = {
     ru: "Разное",
     en: "Miscellaneous"
   },
+  "loading": {
+    ua: "Завантаження",
+    ru: "Загрузка",
+    en: "Loading"
+  },
   
   // Old categories that we'll keep for backward compatibility with existing products
   "multimedia_tools": {
